@@ -12,6 +12,9 @@ import static org.junit.Assert.*;
  * To change this template use File | Settings | File Templates.
  */
 public class GameSubsystemTest {
+    String board="ooox oo x";
+    char player='x';
+    String postdata="board="+board+"&player="+player;
     @Test
     public void acceptPostWithTTTPath(){
         ResponseSubsystem gameSubsystem=new GameSubsystem(null);
@@ -37,24 +40,26 @@ public class GameSubsystemTest {
     throws IOException{
         MockTTTLibrary mockLibrary=new MockTTTLibrary();
         ResponseSubsystem gameSubsystem=new GameSubsystem(mockLibrary);
-        String postdata="board=ooox oo x&player=x";
         Request request=new MockRequest("POST","ttt",postdata.getBytes(),false,true);
         gameSubsystem.buildResponse(request);
         assertEquals("getMove", mockLibrary._calls.get(0));
+        assertEquals(board,mockLibrary._boardArgs.get(0));
+        assertEquals((char)player,(char)mockLibrary._playerArgs.get(0));
+        
     }
     @Test
     public void buildPostResponse()
     throws IOException{
         MockTTTLibrary mockLibrary=new MockTTTLibrary();
         ResponseSubsystem gameSubsystem=new GameSubsystem(mockLibrary);
-        String postdata="board=ooox oo x&player=x";
-        Request request=new MockRequest("POST","ttt",postdata.getBytes(),false,true);
+        int[] expectedMove=mockLibrary.getMove(board,player);
+        String expectedMoveString=Integer.toString(expectedMove[0])+Integer.toString(expectedMove[1]);
+        
+        Request request=new MockRequest("POST","/ttt",postdata.getBytes(),false,true);
         Response response = gameSubsystem.buildResponse(request);
-        String body=new String(response.getBody());
-        String move="move=11";
-        assertEquals(1,mockLibrary._defaultMove[0]);
-        assertEquals(1,mockLibrary._defaultMove[1]);
-        assertEquals(move,body);
+        String body=new String(response.getBody());        
+        
+        assertEquals("move="+expectedMoveString,body);
     }
 
 }

@@ -5,6 +5,6 @@
  * Time: 10:31 AM
  * To change this template use File | Settings | File Templates.
  */
-public class MainTest {
+public class StartTTTServerTest {
 
 }

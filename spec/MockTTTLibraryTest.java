@@ -11,18 +11,13 @@ public class MockTTTLibraryTest {
     @Test
     public void recordsCalls(){
         MockTTTLibrary mockTTTLibrary=new MockTTTLibrary();
-        int [][] board=new int [3][];
-        int [] firstRow={1,1,1};
-        int [] secondRow={-1,0,1};
-        int [] thirdRow={1,0,-1};
-        board[0]=firstRow;
-        board[1]=secondRow;
-        board[2]=thirdRow;
-        mockTTTLibrary.getMove(board, -1);
-        
-        assertArrayEquals(board,mockTTTLibrary._boardArgs.get(0));
-        assertEquals((int)-1,(int)mockTTTLibrary._playerArgs.get(0));
+        String board="xxxo xx o";
+        int [] move = mockTTTLibrary.getMove(board, 'o');
+        assertEquals(board,mockTTTLibrary._boardArgs.get(0));
+        assertEquals('o',(char)mockTTTLibrary._playerArgs.get(0));
         assertEquals("getMove",mockTTTLibrary._calls.get(0));
+        assertEquals(1,move[0]);
+        assertEquals(1,move[1]);
     }
 
 

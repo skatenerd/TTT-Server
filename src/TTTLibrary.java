@@ -6,5 +6,5 @@
  * To change this template use File | Settings | File Templates.
  */
 public interface TTTLibrary {
-    public int [] getMove(int [][] board, int player);
+    public int [] getMove(String board, char player);
 }

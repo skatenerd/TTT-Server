@@ -10,17 +10,17 @@ import java.util.List;
  */
 public class MockTTTLibrary implements TTTLibrary{
     public List<String> _calls;
-    public List<int[][]> _boardArgs;
-    public List<Integer> _playerArgs;
+    public List<String> _boardArgs;
+    public List<Character> _playerArgs;
     public int [] _defaultMove={1,1};
 
     public MockTTTLibrary(){
         _calls = new ArrayList<String>();
-        _boardArgs = new ArrayList<int[][]>();
-        _playerArgs=new ArrayList<Integer>();
+        _boardArgs = new ArrayList<String>();
+        _playerArgs=new ArrayList<Character>();
     }
     
-    public int [] getMove(int [][]board, int player){
+    public int [] getMove(String board, char player){
         _calls.add("getMove");
         _boardArgs.add(board);
         _playerArgs.add(player);
