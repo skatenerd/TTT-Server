@@ -82,6 +82,10 @@ public class GameSubsystemTest {
         Request illegalCharactersRequest=new MockRequest("POST","/ttt",illegalCharactersPostdata,false,true);
         Response illegalCharactersResponse=gameSubsystem.buildResponse(illegalCharactersRequest);
         assertEquals(BadRequestResponse.class,illegalCharactersResponse.getClass());
+        
+        Request notPostdata=new MockRequest("POST","/ttt","fizz".getBytes(),false,true);
+        Response notPostdataResponse=gameSubsystem.buildResponse(notPostdata);
+        assertEquals(BadRequestResponse.class,notPostdataResponse.getClass());
 
 
     }

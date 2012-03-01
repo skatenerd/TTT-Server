@@ -41,7 +41,6 @@ public class GameSubsystem implements ResponseSubsystem{
 
     private boolean postDataValid(String board,String  player){
         return playerValid(player) && boardValid(board);
-
     }
     
     private boolean playerValid(String player){
