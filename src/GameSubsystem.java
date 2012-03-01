@@ -17,21 +17,12 @@ public class GameSubsystem implements ResponseSubsystem{
 
     public Response buildResponse(Request request){
         String body=new String(request.get_Body());
-        String [] splitted=body.split("&");
-        String board="";
-        char player=' ';
-        for(String keyval:splitted){
-            String [] keyvalArray=keyval.split("=");
-            if(keyvalArray[0].equals("board")){
-                board=keyvalArray[1];
-            }else if(keyvalArray[0].equals("player")){
-                player=keyvalArray[1].charAt(0);
-            }
-        }
-        
-        int [] move= _tttLibrary.getMove(board,player);
-        String postdata="move="+Integer.toString(move[0])+Integer.toString(move[1]);
-        byte [] postBytes=postdata.getBytes();
+        Map<String,String>parsed=PostDataParser.parse(body);                
+        String board=parsed.get("board");
+        char player=parsed.get("player").charAt(0);
+        int [] move= _tttLibrary.getMove(board, player);
+        String responsePostdata="move="+Integer.toString(move[0])+Integer.toString(move[1]);
+        byte [] postBytes=responsePostdata.getBytes();
         return new TextResponse(request, postBytes);
     }
 
