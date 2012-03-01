@@ -10,7 +10,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class StartTTTServer {
-    public static void Main(String [] args)
+    public static void main(String [] args)
     {
         ResponseSubsystem gameSubsystem=new GameSubsystem(new TTTLibraryImpl());
         List<ResponseSubsystem> subsystemList=new ArrayList<ResponseSubsystem>();

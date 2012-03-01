@@ -20,7 +20,7 @@ public class IntegrationTest {
         @Override
         public void run() {
             String [] args={"-p", Integer.toString(port), "-d", "/Users"};
-            StartTTTServer.Main(args);            
+            StartTTTServer.main(args);
         }
     };
     

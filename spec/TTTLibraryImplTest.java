@@ -15,7 +15,13 @@ public class TTTLibraryImplTest {
         int[] intendedMove={0,2};
         TTTLibrary tttLibrary=new TTTLibraryImpl();
         assertArrayEquals(intendedMove, tttLibrary.getMove(board, player));
-        
+    }
+    @Test
+    public void returnsNullOnTie(){
+        String board="xoxooxxxo";
+        char player='o';
+        TTTLibrary tttLibrary=new TTTLibraryImpl();
+        assertTrue(null==tttLibrary.getMove(board, player));
     }
     
     

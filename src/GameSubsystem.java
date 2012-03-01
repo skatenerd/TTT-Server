@@ -37,7 +37,7 @@ public class GameSubsystem implements ResponseSubsystem{
 
     public boolean shouldHandle(Request request){
         boolean shouldHandle=false;
-        if(request.get_path().equals("/ttt")){
+        if(request.pathSupplied() && request.get_path().equals("/ttt")){
             if(request.get_requestType().equalsIgnoreCase("POST")){
                 shouldHandle = true;
             }
