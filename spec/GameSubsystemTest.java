@@ -45,8 +45,8 @@ public class GameSubsystemTest {
         assertEquals("getMove", mockLibrary._calls.get(0));
         assertEquals(board,mockLibrary._boardArgs.get(0));
         assertEquals((char)player,(char)mockLibrary._playerArgs.get(0));
-        
     }
+
     @Test
     public void buildPostResponse()
     throws IOException{
@@ -61,5 +61,30 @@ public class GameSubsystemTest {
         
         assertEquals("move="+expectedMoveString,body);
     }
+
+    @Test
+    public void sendsBadRequestOnGarbageInput()
+    throws IOException{
+        String tooLongBoard="oooooooooooooo";
+        String illegalCharacters="hellooooo";
+        
+        byte [] tooLongBoardPostdata=("board="+tooLongBoard+"&player=x").getBytes();
+        byte [] illegalCharactersPostdata=("board="+illegalCharacters+"&player=x").getBytes();
+
+
+        MockTTTLibrary mockLibrary=new MockTTTLibrary();
+        ResponseSubsystem gameSubsystem=new GameSubsystem(mockLibrary);
+
+        Request tooLongRequest=new MockRequest("POST","/ttt",tooLongBoardPostdata,false,true);
+        Response tooLongResponse = gameSubsystem.buildResponse(tooLongRequest);
+        assertEquals(BadRequestResponse.class, tooLongResponse.getClass());
+        
+        Request illegalCharactersRequest=new MockRequest("POST","/ttt",illegalCharactersPostdata,false,true);
+        Response illegalCharactersResponse=gameSubsystem.buildResponse(illegalCharactersRequest);
+        assertEquals(BadRequestResponse.class,illegalCharactersResponse.getClass());
+
+
+    }
+
 
 }
