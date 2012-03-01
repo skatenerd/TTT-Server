@@ -1,3 +1,8 @@
+import sun.tools.tree.CastExpression;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: 8thlight
@@ -9,7 +14,14 @@ public class TTTLibraryImpl implements TTTLibrary{
     public TTTLibraryImpl(){}
     
     public int [] getMove(String board, char player){
-        int [] rtn = {1,1};
+        Object raw=minimax.computeNextMoveFromString(board,new Character(player).toString());
+        List<Object> asList=(ArrayList<Object>)raw;
+        int [] rtn=new int[2];
+        rtn[0]=(Integer)asList.get(0);
+        rtn[1]=(Integer)asList.get(1);
+
+
         return rtn;
+
     }
 }
