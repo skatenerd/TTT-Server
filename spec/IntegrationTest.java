@@ -44,7 +44,6 @@ public class IntegrationTest {
         Thread.sleep(2000);
         while(reader.ready()){
             line=reader.readLine();
-            System.out.println(line);
         }
 
         int [] move=new TTTLibraryImpl().getMove(BoardStringParser.stringToBoardVector(board),player,Integer.parseInt(maxdepth));
