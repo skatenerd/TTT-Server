@@ -19,8 +19,12 @@ public class GameSubsystemTest {
     @Test
     public void acceptPostWithTTTPath(){
         ResponseSubsystem gameSubsystem=new GameSubsystem(null);
-        Request request=new MockRequest("POST","/ttt/cpumove","".getBytes(),false,true);
-        assertTrue(gameSubsystem.shouldHandle(request));
+
+        Request cpumoveRequest=new MockRequest("POST","/ttt/cpumove","".getBytes(),false,true);
+        assertTrue(gameSubsystem.shouldHandle(cpumoveRequest));
+
+        Request winnerRequest=new MockRequest("POST","/ttt/winner","".getBytes(),false,true);
+        assertTrue(gameSubsystem.shouldHandle(winnerRequest));
     }
 
     @Test

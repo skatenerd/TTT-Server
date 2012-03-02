@@ -16,8 +16,8 @@ import java.util.Map;
  */
 public class GameSubsystem implements ResponseSubsystem{
     private TTTLibrary _tttLibrary;
-    private static String _appRoot="/ttt";
-    private static String [] _paths={"cpumove"};
+    private static String _appRoot="/ttt/";
+    private static String [] _paths={"cpumove","winner"};
     public GameSubsystem(TTTLibrary tttLibrary){
         _tttLibrary = tttLibrary;
     }
@@ -97,9 +97,18 @@ public class GameSubsystem implements ResponseSubsystem{
         return rtn;
     }
     
+    private boolean pathValid(String candidatePath){
+        for(String path:_paths){
+            if(candidatePath.equals(_appRoot+path)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public boolean shouldHandle(Request request){
         boolean shouldHandle=false;
-        if(request.pathSupplied() && request.get_path().equals("/ttt/"+_paths[0])){
+        if(request.pathSupplied() && pathValid(request.get_path())){
             if(request.get_requestType().equalsIgnoreCase("POST")){
                 shouldHandle = true;
             }
