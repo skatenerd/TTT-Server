@@ -103,15 +103,15 @@ public class GameSubsystemTest {
         MockTTTLibrary mockLibrary=new MockTTTLibrary(defaultMove,null);
         ResponseSubsystem gameSubsystem=new GameSubsystem(mockLibrary);
 
-        Request tooLongRequest=new MockRequest("POST","/ttt",tooLongBoardPostdata,false,true);
+        Request tooLongRequest=new MockRequest("POST","/ttt/cpumove",tooLongBoardPostdata,false,true);
         Response tooLongResponse = gameSubsystem.buildResponse(tooLongRequest);
         assertEquals(BadRequestResponse.class, tooLongResponse.getClass());
         
-        Request illegalCharactersRequest=new MockRequest("POST","/ttt",illegalCharactersPostdata,false,true);
+        Request illegalCharactersRequest=new MockRequest("POST","/ttt/cpumove",illegalCharactersPostdata,false,true);
         Response illegalCharactersResponse=gameSubsystem.buildResponse(illegalCharactersRequest);
         assertEquals(BadRequestResponse.class,illegalCharactersResponse.getClass());
 
-        Request notPostdata=new MockRequest("POST","/ttt","fizz".getBytes(),false,true);
+        Request notPostdata=new MockRequest("POST","/ttt/cpumove","fizz".getBytes(),false,true);
         Response notPostdataResponse=gameSubsystem.buildResponse(notPostdata);
         assertEquals(BadRequestResponse.class,notPostdataResponse.getClass());
 

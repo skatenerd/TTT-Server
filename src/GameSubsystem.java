@@ -22,22 +22,12 @@ public class GameSubsystem implements ResponseSubsystem{
         _tttLibrary = tttLibrary;
     }
     
-    private Response buildCpuResponse(Request request){
-        return null;
-    }   
+    private Response buildCpuResponse(Request request,Map<String,String> postParams){
 
-    private Response buildWinnerResponse(Request request){
-        return null;
-    }
-    
-    public Response buildResponse(Request request) {
-        String body = new String(request.get_Body());
 
-        Map<String, String> parsed = PostDataParser.parse(body);
-
-        String player = getPlayer(parsed);
-        Integer maxDepth = getMaxDepth(parsed);
-        PersistentVector board = getBoardVector(parsed);
+        String player = getPlayer(postParams);
+        Integer maxDepth = getMaxDepth(postParams);
+        PersistentVector board = getBoardVector(postParams);
         if (postDataValid(board, player)) {
             int[] move = _tttLibrary.getMove(board, player.charAt(0), maxDepth);
             byte [] postBytes=new byte[0];
@@ -49,6 +39,28 @@ public class GameSubsystem implements ResponseSubsystem{
         } else {
             return new BadRequestResponse();
         }
+    }   
+
+    private Response buildWinnerResponse(Request request, Map<String,String> postParams){
+        PersistentVector board = getBoardVector(postParams);
+        //if(boardValid(board)){
+        _tttLibrary.winner(board);
+        //}
+        return null;
+    }
+    
+    public Response buildResponse(Request request) {
+        String body = new String(request.get_Body());
+        Map<String, String> parsed = PostDataParser.parse(body);
+
+
+        Response response=null;
+        if(request.get_path().equals(_appRoot+"cpumove")){
+            response = buildCpuResponse(request, parsed);
+        }else if(request.get_path().equals(_appRoot+"winner")){
+            response = buildWinnerResponse(request, parsed);
+        }
+        return response;
     }
 
     private PersistentVector getBoardVector(Map<String,String>postParams){
