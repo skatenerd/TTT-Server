@@ -12,12 +12,14 @@ public class MockTTTLibraryTest {
     public void recordsCalls(){
         MockTTTLibrary mockTTTLibrary=new MockTTTLibrary();
         String board="xxxo xx o";
-        int [] move = mockTTTLibrary.getMove(BoardStringParser.stringToBoardVector(board), 'o');
+        int [] move = mockTTTLibrary.getMove(BoardStringParser.stringToBoardVector(board), 'o',74);
         assertEquals(BoardStringParser.stringToBoardVector(board),mockTTTLibrary._boardArgs.get(0));
         assertEquals('o',(char)mockTTTLibrary._playerArgs.get(0));
         assertEquals("getMove",mockTTTLibrary._calls.get(0));
+        assertEquals(74,(int)mockTTTLibrary._depthArgs.get(0));
         assertEquals(1,move[0]);
         assertEquals(1,move[1]);
+        
     }
 
 

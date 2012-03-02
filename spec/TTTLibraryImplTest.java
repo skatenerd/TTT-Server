@@ -14,14 +14,14 @@ public class TTTLibraryImplTest {
         char player='o';
         int[] intendedMove={0,2};
         TTTLibrary tttLibrary=new TTTLibraryImpl();
-        assertArrayEquals(intendedMove, tttLibrary.getMove(BoardStringParser.stringToBoardVector(board), player));
+        assertArrayEquals(intendedMove, tttLibrary.getMove(BoardStringParser.stringToBoardVector(board), player, null));
     }
     @Test
     public void returnsNullOnTie(){
         String board="xoxooxxxo";
         char player='o';
         TTTLibrary tttLibrary=new TTTLibraryImpl();
-        assertTrue(null==tttLibrary.getMove(BoardStringParser.stringToBoardVector(board), player));
+        assertTrue(null==tttLibrary.getMove(BoardStringParser.stringToBoardVector(board), player,16));
     }
     
     

@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 public class GameSubsystemTest {
     String board="ooox oo x";
     char player='x';
-    String postdata="board="+board+"&player="+player;
+    String postdata="board="+board+"&player="+player+"&maxdepth=5";
     @Test
     public void acceptPostWithTTTPath(){
         ResponseSubsystem gameSubsystem=new GameSubsystem(null);
@@ -45,14 +45,16 @@ public class GameSubsystemTest {
         assertEquals("getMove", mockLibrary._calls.get(0));
         assertEquals(BoardStringParser.stringToBoardVector(board),mockLibrary._boardArgs.get(0));
         assertEquals((char)player,(char)mockLibrary._playerArgs.get(0));
+        assertEquals(5,(int)mockLibrary._depthArgs.get(0));
     }
+    
 
     @Test
     public void buildPostResponse()
     throws IOException{
         MockTTTLibrary mockLibrary=new MockTTTLibrary();
         ResponseSubsystem gameSubsystem=new GameSubsystem(mockLibrary);
-        int[] expectedMove=mockLibrary.getMove(null,player);
+        int[] expectedMove=mockLibrary.getMove(null, player, null);
         String expectedMoveString=Integer.toString(expectedMove[0])+Integer.toString(expectedMove[1]);
         
         Request request=new MockRequest("POST","/ttt",postdata.getBytes(),false,true);

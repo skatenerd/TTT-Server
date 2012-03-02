@@ -13,18 +13,23 @@ public class MockTTTLibrary implements TTTLibrary{
     public List<String> _calls;
     public List<PersistentVector> _boardArgs;
     public List<Character> _playerArgs;
+    public List<Integer> _depthArgs;
     public int [] _defaultMove={1,1};
 
     public MockTTTLibrary(){
         _calls = new ArrayList<String>();
         _boardArgs = new ArrayList<PersistentVector>();
         _playerArgs=new ArrayList<Character>();
+        _depthArgs=new ArrayList<Integer>();
     }
     
-    public int [] getMove(PersistentVector board, char player){
+    public int [] getMove(PersistentVector board, char player, Integer maxDepth){
         _calls.add("getMove");
         _boardArgs.add(board);
         _playerArgs.add(player);
+        _depthArgs.add(maxDepth);
         return _defaultMove;
     }
+    
+
 }

@@ -10,5 +10,5 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public interface TTTLibrary {
-    public int [] getMove(PersistentVector board, char player);
+    public int [] getMove(PersistentVector board, char player, Integer maxDepth);
 }

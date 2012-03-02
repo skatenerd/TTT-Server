@@ -20,31 +20,27 @@ public class GameSubsystem implements ResponseSubsystem{
         _tttLibrary = tttLibrary;
     }
 
-    public Response buildResponse(Request request){
-        String body=new String(request.get_Body());
-        
-        Map<String,String>parsed=PostDataParser.parse(body);
+    public Response buildResponse(Request request) {
+        String body = new String(request.get_Body());
 
-        String player=getPlayer(parsed);
-        PersistentVector board=getBoardVector(parsed);
-        if(postDataValid(board, player)){
+        Map<String, String> parsed = PostDataParser.parse(body);
 
-            int [] move= _tttLibrary.getMove(board, player.charAt(0));
-            String responsePostdata="move="+Integer.toString(move[0])+Integer.toString(move[1]);
-            byte [] postBytes=responsePostdata.getBytes();
+        String player = getPlayer(parsed);
+        Integer maxDepth = getMaxDepth(parsed);
+        PersistentVector board = getBoardVector(parsed);
+        if (postDataValid(board, player)) {
+            int[] move = _tttLibrary.getMove(board, player.charAt(0), maxDepth);
+            String responsePostdata = "move=" + Integer.toString(move[0]) + Integer.toString(move[1]);
+            byte[] postBytes = responsePostdata.getBytes();
             return new TextResponse(request, postBytes);
-
-        }else{
+        } else {
             return new BadRequestResponse();
         }
-
-
-
     }
 
-    private PersistentVector getBoardVector(Map<String,String>params){
+    private PersistentVector getBoardVector(Map<String,String>postParams){
         PersistentVector boardVector=null;
-        String board=params.get("board");
+        String board=postParams.get("board");
         if(board!=null){
             boardVector = BoardStringParser.stringToBoardVector(board);
         }
@@ -52,8 +48,8 @@ public class GameSubsystem implements ResponseSubsystem{
         return boardVector;
     }   
     
-    private String getPlayer(Map<String,String>params){
-        String playerField=params.get("player");
+    private String getPlayer(Map<String,String>postParams){
+        String playerField=postParams.get("player");
         if(playerField!=null && playerField.length()==1){
             return playerField;
         }else{
@@ -61,9 +57,18 @@ public class GameSubsystem implements ResponseSubsystem{
         }
     }
 
+    private Integer getMaxDepth(Map<String,String>postParams){
+        String depthField=postParams.get("maxdepth");
+        if(depthField!=null){
+            return Integer.parseInt(depthField);
+        }else{
+            return null;
+        }
+    }
+    
     private boolean postDataValid(PersistentVector board,String  player){
         return playerValid(player) && boardValid(board);
-    }
+    }    
 
     private boolean boardValid(PersistentVector board){
         boolean valid=false;
