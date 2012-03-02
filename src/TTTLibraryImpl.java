@@ -33,7 +33,10 @@ public class TTTLibraryImpl implements TTTLibrary{
         }
 
         return rtn;
+    }
 
+    public String winner(PersistentVector board){
+        return null;
     }
 
 }

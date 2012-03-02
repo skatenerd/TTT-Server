@@ -43,7 +43,7 @@ public class GameSubsystemTest {
     @Test
     public void sendGameRequest()
     throws IOException{
-        MockTTTLibrary mockLibrary=new MockTTTLibrary(defaultMove);
+        MockTTTLibrary mockLibrary=new MockTTTLibrary(defaultMove,null);
         ResponseSubsystem gameSubsystem=new GameSubsystem(mockLibrary);
         Request request=new MockRequest("POST","/ttt/cpumove",postdata.getBytes(),false,true);
         gameSubsystem.buildResponse(request);
@@ -57,7 +57,7 @@ public class GameSubsystemTest {
     @Test
     public void buildPostResponse()
     throws IOException{
-        MockTTTLibrary mockLibrary=new MockTTTLibrary(defaultMove);
+        MockTTTLibrary mockLibrary=new MockTTTLibrary(defaultMove,null);
         ResponseSubsystem gameSubsystem=new GameSubsystem(mockLibrary);
         int[] expectedMove=mockLibrary.getMove(null, player, null);
         String expectedMoveString=Integer.toString(expectedMove[0])+Integer.toString(expectedMove[1]);
@@ -72,7 +72,7 @@ public class GameSubsystemTest {
     @Test
     public void emptyResponseBodyForNullMove()
     throws IOException{
-        MockTTTLibrary mockLibrary=new MockTTTLibrary(null);
+        MockTTTLibrary mockLibrary=new MockTTTLibrary(null,null);
         ResponseSubsystem gameSubsystem=new GameSubsystem(mockLibrary);        
         Request request=new MockRequest("POST","/ttt/cpumove",postdata.getBytes(),false,true);
         Response response = gameSubsystem.buildResponse(request);
@@ -89,7 +89,7 @@ public class GameSubsystemTest {
         byte [] illegalCharactersPostdata=("board="+illegalCharacters+"&player=x").getBytes();
 
 
-        MockTTTLibrary mockLibrary=new MockTTTLibrary(defaultMove);
+        MockTTTLibrary mockLibrary=new MockTTTLibrary(defaultMove,null);
         ResponseSubsystem gameSubsystem=new GameSubsystem(mockLibrary);
 
         Request tooLongRequest=new MockRequest("POST","/ttt",tooLongBoardPostdata,false,true);

@@ -11,7 +11,7 @@ public class MockTTTLibraryTest {
     @Test
     public void recordsCalls(){
         int [] defaultMove={1,1};
-        MockTTTLibrary mockTTTLibrary=new MockTTTLibrary(defaultMove);
+        MockTTTLibrary mockTTTLibrary=new MockTTTLibrary(defaultMove,null);
         String board="xxxo xx o";
         int [] move = mockTTTLibrary.getMove(BoardStringParser.stringToBoardVector(board), 'o',74);
         assertEquals(BoardStringParser.stringToBoardVector(board),mockTTTLibrary._boardArgs.get(0));

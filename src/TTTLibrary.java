@@ -11,4 +11,5 @@ import java.util.ArrayList;
  */
 public interface TTTLibrary {
     public int [] getMove(PersistentVector board, char player, Integer maxDepth);
+    public String winner(PersistentVector board);
 }
