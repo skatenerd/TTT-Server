@@ -35,6 +35,8 @@ public class MockTTTLibrary implements TTTLibrary{
     }
     
     public String winner(PersistentVector board){
+        _boardArgs.add(board);
+        _calls.add("winner");
         return _winner;
     }
     

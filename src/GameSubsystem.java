@@ -21,7 +21,15 @@ public class GameSubsystem implements ResponseSubsystem{
     public GameSubsystem(TTTLibrary tttLibrary){
         _tttLibrary = tttLibrary;
     }
+    
+    private Response buildCpuResponse(Request request){
+        return null;
+    }   
 
+    private Response buildWinnerResponse(Request request){
+        return null;
+    }
+    
     public Response buildResponse(Request request) {
         String body = new String(request.get_Body());
 

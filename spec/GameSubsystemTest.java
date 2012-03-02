@@ -1,7 +1,6 @@
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import static org.junit.Assert.*;
 /**
@@ -14,7 +13,8 @@ import static org.junit.Assert.*;
 public class GameSubsystemTest {
     String board="ooox oo x";
     char player='x';
-    String postdata="board="+board+"&player="+player+"&maxdepth=5";
+    String movePostdata ="board="+board+"&player="+player+"&maxdepth=5";
+    String winnerPostdata ="board="+board;
     int [] defaultMove={1,1};
     @Test
     public void acceptPostWithTTTPath(){
@@ -41,16 +41,27 @@ public class GameSubsystemTest {
     }
 
     @Test
-    public void sendGameRequest()
+    public void sendMoveRequest()
     throws IOException{
         MockTTTLibrary mockLibrary=new MockTTTLibrary(defaultMove,null);
         ResponseSubsystem gameSubsystem=new GameSubsystem(mockLibrary);
-        Request request=new MockRequest("POST","/ttt/cpumove",postdata.getBytes(),false,true);
+        Request request=new MockRequest("POST","/ttt/cpumove", movePostdata.getBytes(),false,true);
         gameSubsystem.buildResponse(request);
         assertEquals("getMove", mockLibrary._calls.get(0));
         assertEquals(BoardStringParser.stringToBoardVector(board),mockLibrary._boardArgs.get(0));
         assertEquals((char)player,(char)mockLibrary._playerArgs.get(0));
         assertEquals(5,(int)mockLibrary._depthArgs.get(0));
+    }
+
+    @Test
+    public void sendWinnerRequest()
+    throws IOException{
+        MockTTTLibrary mockLibrary=new MockTTTLibrary(null,"x");
+        ResponseSubsystem gameSubsystem=new GameSubsystem(mockLibrary);
+        Request request=new MockRequest("POST","/ttt/winner", winnerPostdata.getBytes(),false,true);
+        gameSubsystem.buildResponse(request);
+        assertEquals("winner", mockLibrary._calls.get(0));
+        assertEquals(BoardStringParser.stringToBoardVector(board),mockLibrary._boardArgs.get(0));
     }
     
 
@@ -62,7 +73,7 @@ public class GameSubsystemTest {
         int[] expectedMove=mockLibrary.getMove(null, player, null);
         String expectedMoveString=Integer.toString(expectedMove[0])+Integer.toString(expectedMove[1]);
         
-        Request request=new MockRequest("POST","/ttt/cpumove",postdata.getBytes(),false,true);
+        Request request=new MockRequest("POST","/ttt/cpumove", movePostdata.getBytes(),false,true);
         Response response = gameSubsystem.buildResponse(request);
         String body=new String(response.getBody());        
         
@@ -74,7 +85,7 @@ public class GameSubsystemTest {
     throws IOException{
         MockTTTLibrary mockLibrary=new MockTTTLibrary(null,null);
         ResponseSubsystem gameSubsystem=new GameSubsystem(mockLibrary);        
-        Request request=new MockRequest("POST","/ttt/cpumove",postdata.getBytes(),false,true);
+        Request request=new MockRequest("POST","/ttt/cpumove", movePostdata.getBytes(),false,true);
         Response response = gameSubsystem.buildResponse(request);
         assertEquals(0,response.getBody().length);
     }
