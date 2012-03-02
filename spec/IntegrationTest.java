@@ -32,7 +32,8 @@ public class IntegrationTest {
         Socket socket=new Socket("localhost",port);
         String board="xoxxox   ";
         char player='o';
-        String body=("board="+board+"&player="+player);
+        String maxdepth="1";
+        String body=("board="+board+"&player="+player+"&maxdepth="+maxdepth);
         String contentLength=Integer.toString(body.getBytes().length);
         byte [] requestBytes=("POST /ttt HTTP/1.1\nContent-Length: "+contentLength+"\n\n"+body).getBytes();
 
@@ -46,7 +47,7 @@ public class IntegrationTest {
             System.out.println(line);
         }
 
-        int [] move=new TTTLibraryImpl().getMove(BoardStringParser.stringToBoardVector(board),player,null);
+        int [] move=new TTTLibraryImpl().getMove(BoardStringParser.stringToBoardVector(board),player,Integer.parseInt(maxdepth));
         String moveString=Integer.toString(move[0])+Integer.toString(move[1]);
         assertTrue(line.indexOf(moveString)>0);
 
