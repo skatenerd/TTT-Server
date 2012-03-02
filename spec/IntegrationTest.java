@@ -46,7 +46,7 @@ public class IntegrationTest {
             System.out.println(line);
         }
 
-        int [] move=new TTTLibraryImpl().getMove(board,player);
+        int [] move=new TTTLibraryImpl().getMove(BoardStringParser.stringToBoardVector(board),player);
         String moveString=Integer.toString(move[0])+Integer.toString(move[1]);
         assertTrue(line.indexOf(moveString)>0);
 

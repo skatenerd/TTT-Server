@@ -1,3 +1,7 @@
+import clojure.lang.*;
+
+import java.util.ArrayList;
+
 /**
  * Created by IntelliJ IDEA.
  * User: 8thlight
@@ -6,5 +10,5 @@
  * To change this template use File | Settings | File Templates.
  */
 public interface TTTLibrary {
-    public int [] getMove(String board, char player);
+    public int [] getMove(PersistentVector board, char player);
 }

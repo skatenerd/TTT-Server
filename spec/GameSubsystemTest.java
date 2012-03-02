@@ -43,7 +43,7 @@ public class GameSubsystemTest {
         Request request=new MockRequest("POST","ttt",postdata.getBytes(),false,true);
         gameSubsystem.buildResponse(request);
         assertEquals("getMove", mockLibrary._calls.get(0));
-        assertEquals(board,mockLibrary._boardArgs.get(0));
+        assertEquals(BoardStringParser.stringToBoardVector(board),mockLibrary._boardArgs.get(0));
         assertEquals((char)player,(char)mockLibrary._playerArgs.get(0));
     }
 
@@ -52,7 +52,7 @@ public class GameSubsystemTest {
     throws IOException{
         MockTTTLibrary mockLibrary=new MockTTTLibrary();
         ResponseSubsystem gameSubsystem=new GameSubsystem(mockLibrary);
-        int[] expectedMove=mockLibrary.getMove(board,player);
+        int[] expectedMove=mockLibrary.getMove(null,player);
         String expectedMoveString=Integer.toString(expectedMove[0])+Integer.toString(expectedMove[1]);
         
         Request request=new MockRequest("POST","/ttt",postdata.getBytes(),false,true);
@@ -82,7 +82,7 @@ public class GameSubsystemTest {
         Request illegalCharactersRequest=new MockRequest("POST","/ttt",illegalCharactersPostdata,false,true);
         Response illegalCharactersResponse=gameSubsystem.buildResponse(illegalCharactersRequest);
         assertEquals(BadRequestResponse.class,illegalCharactersResponse.getClass());
-        
+
         Request notPostdata=new MockRequest("POST","/ttt","fizz".getBytes(),false,true);
         Response notPostdataResponse=gameSubsystem.buildResponse(notPostdata);
         assertEquals(BadRequestResponse.class,notPostdataResponse.getClass());

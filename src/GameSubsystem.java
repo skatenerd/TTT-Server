@@ -1,3 +1,8 @@
+import clojure.lang.Keyword;
+import clojure.lang.PersistentVector;
+import clojure.lang.RT;
+import clojure.lang.Var;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,30 +22,60 @@ public class GameSubsystem implements ResponseSubsystem{
 
     public Response buildResponse(Request request){
         String body=new String(request.get_Body());
-        Map<String,String>parsed=validateAndParse(body);
-        if(parsed==null){
-            return new BadRequestResponse();
-        }else{
-            String board=parsed.get("board");
-            char player=parsed.get("player").charAt(0);
-            int [] move= _tttLibrary.getMove(board, player);
+        
+        Map<String,String>parsed=PostDataParser.parse(body);
+
+        String player=getPlayer(parsed);
+        PersistentVector board=getBoardVector(parsed);
+        if(postDataValid(board, player)){
+
+            int [] move= _tttLibrary.getMove(board, player.charAt(0));
             String responsePostdata="move="+Integer.toString(move[0])+Integer.toString(move[1]);
             byte [] postBytes=responsePostdata.getBytes();
             return new TextResponse(request, postBytes);
+
+        }else{
+            return new BadRequestResponse();
+        }
+
+
+
+    }
+
+    private PersistentVector getBoardVector(Map<String,String>params){
+        PersistentVector boardVector=null;
+        String board=params.get("board");
+        if(board!=null){
+            boardVector = BoardStringParser.stringToBoardVector(board);
+        }
+        
+        return boardVector;
+    }   
+    
+    private String getPlayer(Map<String,String>params){
+        String playerField=params.get("player");
+        if(playerField!=null && playerField.length()==1){
+            return playerField;
+        }else{
+            return null;
         }
     }
 
-    private Map<String,String> validateAndParse(String postdata){
-        Map<String,String> rtn=null;
-        Map<String,String>parsed=PostDataParser.parse(postdata);
-        if(postDataValid(parsed.get("board"),parsed.get("player"))){
-            rtn = parsed;
-        }
-        return rtn;
-    }
-
-    private boolean postDataValid(String board,String  player){
+    private boolean postDataValid(PersistentVector board,String  player){
         return playerValid(player) && boardValid(board);
+    }
+
+    private boolean boardValid(PersistentVector board){
+        boolean valid=false;
+        try{
+
+        RT.load("tictactoe.board_utils");
+        Var validator=RT.var("tictactoe.board-utils","board-legal");
+        valid = (Boolean)validator.invoke(board);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return valid;
     }
     
     private boolean playerValid(String player){
@@ -48,16 +83,6 @@ public class GameSubsystem implements ResponseSubsystem{
         if(player!=null &&player.length() ==1){
             char firstChar=player.charAt(0);
             rtn = (firstChar=='x' || firstChar=='o');
-        }
-        return rtn;
-    }
-
-    private boolean boardValid(String board){
-        //this is awful and not dry
-        boolean rtn=false;
-        if(board!=null){
-            String trimmed=board.replaceAll("[^xo ]","");
-            rtn = (trimmed.length() == 9)||(trimmed.length()==16);
         }
         return rtn;
     }

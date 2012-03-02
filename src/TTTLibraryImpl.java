@@ -1,9 +1,4 @@
 import clojure.lang.*;
-import sun.tools.tree.CastExpression;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Vector;
 
 
 /**
@@ -16,14 +11,14 @@ import java.util.Vector;
 public class TTTLibraryImpl implements TTTLibrary{
     public TTTLibraryImpl(){}
     
-    public int [] getMove(String board, char player){
+    public int [] getMove(PersistentVector boardVector, char player){
         int [] rtn=null;
         try{
             RT.load("tictactoe.minimax");
             Var minimax=RT.var("tictactoe.minimax","compute-next-move");
 
-            PersistentVector boardvector=stringToBoardVector(board);
-            Object move=minimax.invoke(boardvector,Keyword.intern("x"),9);
+
+            Object move=minimax.invoke(boardVector,Keyword.intern("x"),9);
             if(move != null){
                 PersistentVector moveVector=(PersistentVector) move;
                 int rowCoordinate=(Integer)moveVector.get(0);
@@ -40,27 +35,5 @@ public class TTTLibraryImpl implements TTTLibrary{
         return rtn;
 
     }
-    
-    private PersistentVector stringToBoardVector(String boardString){
-        int inc=3;
-        List<PersistentVector> boardVectors=new ArrayList<PersistentVector>();
-        for(int i=0; i+inc<=boardString.length();i+=inc){
-            String substring=boardString.substring(i,i+inc);
-            boardVectors.add(stringToVector(substring));
-        }
-        return PersistentVector.create(boardVectors);
-    }
-    
-    private PersistentVector stringToVector(String rowString){
-        List<Keyword> keywords=new ArrayList<Keyword>();
-        for(int i=0;i<rowString.length();i++){
-            String currentChar=rowString.substring(i,i+1);
-            if(currentChar.equals(" ")){
-                keywords.add(null);
-            }else{
-                keywords.add(Keyword.intern(currentChar));
-            }
-        }
-        return PersistentVector.create(keywords);
-    }
+
 }
