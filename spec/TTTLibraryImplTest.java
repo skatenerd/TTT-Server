@@ -1,3 +1,4 @@
+import clojure.lang.PersistentVector;
 import org.junit.Test;
 import static org.junit.Assert.*;
 /**
@@ -19,9 +20,18 @@ public class TTTLibraryImplTest {
     @Test
     public void returnsNullOnTie(){
         String board="xoxooxxxo";
+        PersistentVector boardVector=BoardStringParser.stringToBoardVector(board);
         char player='o';
         TTTLibrary tttLibrary=new TTTLibraryImpl();
-        assertTrue(null==tttLibrary.getMove(BoardStringParser.stringToBoardVector(board), player,16));
+        assertNull(tttLibrary.getMove(boardVector, player,16));
+        assertEquals("",tttLibrary.winner(boardVector));
+    }
+    @Test
+    public void knowsBoardWinner(){
+        String board="xxxxxxxxx";
+        PersistentVector boardVector=BoardStringParser.stringToBoardVector(board);
+        TTTLibrary tttLibrary=new TTTLibraryImpl();
+        assertEquals("x",tttLibrary.winner(boardVector));
     }
     
     
