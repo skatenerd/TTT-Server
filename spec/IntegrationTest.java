@@ -79,7 +79,7 @@ public class IntegrationTest {
             line=reader.readLine();
         }
 
-        assertTrue(line.indexOf("x")>0);
+        assertTrue(line.indexOf("x")>=0);
     }
     
 }

@@ -36,7 +36,19 @@ public class TTTLibraryImpl implements TTTLibrary{
     }
 
     public String winner(PersistentVector board){
-        return null;
+        String winnerString="";
+        try{
+        RT.load("tictactoe.board_utils");
+        Var winnerFn=RT.var("tictactoe.board-utils","game-winner");
+        Object winner=winnerFn.invoke(board);
+        if(winner!=null){
+            winnerString=((Keyword) winner).getName();
+        }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return winnerString;
     }
 
 }
