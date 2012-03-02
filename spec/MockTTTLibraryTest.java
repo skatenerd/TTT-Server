@@ -10,7 +10,8 @@ import static org.junit.Assert.*;
 public class MockTTTLibraryTest {
     @Test
     public void recordsCalls(){
-        MockTTTLibrary mockTTTLibrary=new MockTTTLibrary();
+        int [] defaultMove={1,1};
+        MockTTTLibrary mockTTTLibrary=new MockTTTLibrary(defaultMove);
         String board="xxxo xx o";
         int [] move = mockTTTLibrary.getMove(BoardStringParser.stringToBoardVector(board), 'o',74);
         assertEquals(BoardStringParser.stringToBoardVector(board),mockTTTLibrary._boardArgs.get(0));

@@ -35,7 +35,7 @@ public class IntegrationTest {
         String maxdepth="1";
         String body=("board="+board+"&player="+player+"&maxdepth="+maxdepth);
         String contentLength=Integer.toString(body.getBytes().length);
-        byte [] requestBytes=("POST /ttt HTTP/1.1\nContent-Length: "+contentLength+"\n\n"+body).getBytes();
+        byte [] requestBytes=("POST /ttt/cpumove HTTP/1.1\nContent-Length: "+contentLength+"\n\n"+body).getBytes();
 
         socket.getOutputStream().write(requestBytes);
 

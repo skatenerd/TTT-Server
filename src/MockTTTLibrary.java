@@ -14,13 +14,14 @@ public class MockTTTLibrary implements TTTLibrary{
     public List<PersistentVector> _boardArgs;
     public List<Character> _playerArgs;
     public List<Integer> _depthArgs;
-    public int [] _defaultMove={1,1};
+    public int [] _defaultMove;
 
-    public MockTTTLibrary(){
+    public MockTTTLibrary(int [] move){
         _calls = new ArrayList<String>();
         _boardArgs = new ArrayList<PersistentVector>();
         _playerArgs=new ArrayList<Character>();
         _depthArgs=new ArrayList<Integer>();
+        _defaultMove = move;
     }
     
     public int [] getMove(PersistentVector board, char player, Integer maxDepth){

@@ -15,7 +15,9 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class GameSubsystem implements ResponseSubsystem{
-    TTTLibrary _tttLibrary;
+    private TTTLibrary _tttLibrary;
+    private static String _appRoot="/ttt";
+    private static String [] _paths={"cpumove"};
     public GameSubsystem(TTTLibrary tttLibrary){
         _tttLibrary = tttLibrary;
     }
@@ -30,8 +32,11 @@ public class GameSubsystem implements ResponseSubsystem{
         PersistentVector board = getBoardVector(parsed);
         if (postDataValid(board, player)) {
             int[] move = _tttLibrary.getMove(board, player.charAt(0), maxDepth);
-            String responsePostdata = "move=" + Integer.toString(move[0]) + Integer.toString(move[1]);
-            byte[] postBytes = responsePostdata.getBytes();
+            byte [] postBytes=new byte[0];
+            if(move!=null){
+                String responsePostdata = "move=" + Integer.toString(move[0]) + Integer.toString(move[1]);
+                postBytes = responsePostdata.getBytes();
+            }
             return new TextResponse(request, postBytes);
         } else {
             return new BadRequestResponse();
@@ -94,7 +99,7 @@ public class GameSubsystem implements ResponseSubsystem{
     
     public boolean shouldHandle(Request request){
         boolean shouldHandle=false;
-        if(request.pathSupplied() && request.get_path().equals("/ttt")){
+        if(request.pathSupplied() && request.get_path().equals("/ttt/"+_paths[0])){
             if(request.get_requestType().equalsIgnoreCase("POST")){
                 shouldHandle = true;
             }
