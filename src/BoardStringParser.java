@@ -15,8 +15,9 @@ public class BoardStringParser {
     public static PersistentVector stringToBoardVector(String boardString){
         int inc=(int)Math.sqrt(boardString.length());
         List<PersistentVector> boardVectors=new ArrayList<PersistentVector>();
-        for(int i=0; i+inc<=boardString.length();i+=inc){
-            String substring=boardString.substring(i,i+inc);
+        for(int i=0; i<boardString.length();i+=inc){
+            int maxLegalIdx=Math.min(boardString.length(),i+inc);
+            String substring=boardString.substring(i,maxLegalIdx);
             boardVectors.add(stringToVector(substring));
         }
         return PersistentVector.create(boardVectors);
