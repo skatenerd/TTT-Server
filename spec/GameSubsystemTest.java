@@ -66,7 +66,7 @@ public class GameSubsystemTest {
     
 
     @Test
-    public void buildPostResponse()
+    public void buildPostCPUMoveResponse()
     throws IOException{
         MockTTTLibrary mockLibrary=new MockTTTLibrary(defaultMove,null);
         ResponseSubsystem gameSubsystem=new GameSubsystem(mockLibrary);
@@ -78,6 +78,19 @@ public class GameSubsystemTest {
         String body=new String(response.getBody());        
         
         assertEquals("move="+expectedMoveString,body);
+    }
+
+    @Test
+    public void buildPostWinnerResponse()
+    throws IOException{
+        MockTTTLibrary mockLibrary=new MockTTTLibrary(null,"o");
+        ResponseSubsystem gameSubsystem=new GameSubsystem(mockLibrary);
+
+        Request request=new MockRequest("POST","/ttt/winner", winnerPostdata.getBytes(),false,true);
+        Response response = gameSubsystem.buildResponse(request);
+        String body=new String(response.getBody());
+
+        assertEquals("o",body);
     }
 
     @Test
@@ -103,8 +116,12 @@ public class GameSubsystemTest {
         MockTTTLibrary mockLibrary=new MockTTTLibrary(defaultMove,null);
         ResponseSubsystem gameSubsystem=new GameSubsystem(mockLibrary);
 
-        Request tooLongRequest=new MockRequest("POST","/ttt/cpumove",tooLongBoardPostdata,false,true);
-        Response tooLongResponse = gameSubsystem.buildResponse(tooLongRequest);
+        Request tooLongWinnerRequest=new MockRequest("POST","/ttt/winner",tooLongBoardPostdata,false,true);
+        Response tooLongWinnerResponse=gameSubsystem.buildResponse(tooLongWinnerRequest);
+        assertEquals(BadRequestResponse.class,tooLongWinnerResponse.getClass());
+        
+        Request tooLongMoveRequest=new MockRequest("POST","/ttt/cpumove",tooLongBoardPostdata,false,true);
+        Response tooLongResponse = gameSubsystem.buildResponse(tooLongMoveRequest);
         assertEquals(BadRequestResponse.class, tooLongResponse.getClass());
         
         Request illegalCharactersRequest=new MockRequest("POST","/ttt/cpumove",illegalCharactersPostdata,false,true);

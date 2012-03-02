@@ -43,10 +43,11 @@ public class GameSubsystem implements ResponseSubsystem{
 
     private Response buildWinnerResponse(Request request, Map<String,String> postParams){
         PersistentVector board = getBoardVector(postParams);
-        //if(boardValid(board)){
-        _tttLibrary.winner(board);
-        //}
-        return null;
+        if(boardValid(board)){
+            return new TextResponse(request, _tttLibrary.winner(board).getBytes());
+        }else{
+            return new BadRequestResponse();
+        }
     }
     
     public Response buildResponse(Request request) {
