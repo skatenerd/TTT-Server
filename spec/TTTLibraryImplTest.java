@@ -17,6 +17,16 @@ public class TTTLibraryImplTest {
         TTTLibrary tttLibrary=new TTTLibraryImpl();
         assertArrayEquals(intendedMove, tttLibrary.getMove(BoardStringParser.stringToBoardVector(board), player, null));
     }
+
+    @Test
+    public void blocksEasyWin(){
+        String board="oo  x    ";
+        String player="x";
+        int[] intendedMove={0,2};
+        TTTLibrary tttLibrary=new TTTLibraryImpl();
+        assertArrayEquals(intendedMove, tttLibrary.getMove(BoardStringParser.stringToBoardVector(board), player, null));
+    }
+
     @Test
     public void returnsNullOnTie(){
         String board="xoxooxxxo";

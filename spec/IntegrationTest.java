@@ -40,7 +40,6 @@ public class IntegrationTest {
     public void buildsTTTMoveResponse()
     throws Exception{
         Socket socket=new Socket("localhost",port);
-        //String board="xoxxox   ";
         String board="oo       ";
         String player="o";
         String maxdepth="9";
