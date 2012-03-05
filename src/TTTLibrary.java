@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public interface TTTLibrary {
-    public int [] getMove(PersistentVector board, char player, Integer maxDepth);
+    public int [] getMove(PersistentVector board, String player, Integer maxDepth);
     public String winner(PersistentVector board);
     public boolean playerValid(String player);
     public boolean boardValid(PersistentVector board);

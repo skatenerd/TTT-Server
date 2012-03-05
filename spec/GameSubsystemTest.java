@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 public class GameSubsystemTest {
     String oWinBoard ="ooox oo x";
     String toMoveBoard = "oo       ";
-    char player='x';
+    String player="x";
     String movePostdata ="board="+ toMoveBoard +"&player="+player+"&maxdepth=5";
     String winnerPostdata ="board="+ oWinBoard;
     int [] defaultMove={1,1};
@@ -50,7 +50,7 @@ public class GameSubsystemTest {
         gameSubsystem.buildResponse(request);
         assertEquals("getMove", mockLibrary._calls.get(0));
         assertEquals(BoardStringParser.stringToBoardVector(toMoveBoard),mockLibrary._boardArgs.get(0));
-        assertEquals((char)player,(char)mockLibrary._playerArgs.get(0));
+        assertEquals(player,mockLibrary._playerArgs.get(0));
         assertEquals(5,(int)mockLibrary._depthArgs.get(0));
     }
 

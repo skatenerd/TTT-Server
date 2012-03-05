@@ -11,14 +11,14 @@ import clojure.lang.*;
 public class TTTLibraryImpl implements TTTLibrary{
     public TTTLibraryImpl(){}
     
-    public int [] getMove(PersistentVector boardVector, char player, Integer maxDepth){
+    public int [] getMove(PersistentVector boardVector, String player, Integer maxDepth){
         int [] rtn=null;
         try{
             RT.load("tictactoe.minimax");
             Var minimax=RT.var("tictactoe.minimax","compute-next-move");
 
 
-            Object move=minimax.invoke(boardVector,Keyword.intern("x"),maxDepth);
+            Object move=minimax.invoke(boardVector,Keyword.intern(player),maxDepth);
             if(move != null){
                 PersistentVector moveVector=(PersistentVector) move;
                 int rowCoordinate=(Integer)moveVector.get(0);

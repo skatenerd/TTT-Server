@@ -40,9 +40,10 @@ public class IntegrationTest {
     public void buildsTTTMoveResponse()
     throws Exception{
         Socket socket=new Socket("localhost",port);
-        String board="xoxxox   ";
-        char player='o';
-        String maxdepth="1";
+        //String board="xoxxox   ";
+        String board="oo       ";
+        String player="o";
+        String maxdepth="9";
         String body=("board="+board+"&player="+player+"&maxdepth="+maxdepth);
         String contentLength=Integer.toString(body.getBytes().length);
         byte [] requestBytes=("POST /ttt/cpumove HTTP/1.1\nContent-Length: "+contentLength+"\n\n"+body).getBytes();

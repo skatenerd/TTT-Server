@@ -12,7 +12,7 @@ public class TTTLibraryImplTest {
     @Test
     public void getsEasyWin(){
         String board="oo xxoxx ";
-        char player='o';
+        String player="o";
         int[] intendedMove={0,2};
         TTTLibrary tttLibrary=new TTTLibraryImpl();
         assertArrayEquals(intendedMove, tttLibrary.getMove(BoardStringParser.stringToBoardVector(board), player, null));
@@ -21,7 +21,7 @@ public class TTTLibraryImplTest {
     public void returnsNullOnTie(){
         String board="xoxooxxxo";
         PersistentVector boardVector=BoardStringParser.stringToBoardVector(board);
-        char player='o';
+        String player="o";
         TTTLibrary tttLibrary=new TTTLibraryImpl();
         assertNull(tttLibrary.getMove(boardVector, player,16));
         assertEquals("",tttLibrary.winner(boardVector));

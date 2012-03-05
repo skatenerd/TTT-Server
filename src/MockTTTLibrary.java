@@ -12,7 +12,7 @@ import clojure.lang.*;
 public class MockTTTLibrary implements TTTLibrary{
     public List<String> _calls;
     public List<PersistentVector> _boardArgs;
-    public List<Character> _playerArgs;
+    public List<String > _playerArgs;
     public List<Integer> _depthArgs;
     public String _winner=null;
     public int [] _defaultMove;
@@ -21,14 +21,14 @@ public class MockTTTLibrary implements TTTLibrary{
     public MockTTTLibrary(int [] move, String winner, boolean boardValid){
         _calls = new ArrayList<String>();
         _boardArgs = new ArrayList<PersistentVector>();
-        _playerArgs=new ArrayList<Character>();
+        _playerArgs=new ArrayList<String>();
         _depthArgs=new ArrayList<Integer>();
         _defaultMove = move;
         _winner = winner;
         _boardValid=boardValid;
     }
 
-    public int [] getMove(PersistentVector board, char player, Integer maxDepth){
+    public int [] getMove(PersistentVector board, String player, Integer maxDepth){
         _calls.add("getMove");
         _boardArgs.add(board);
         _playerArgs.add(player);

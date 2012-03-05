@@ -29,7 +29,7 @@ public class GameSubsystem implements ResponseSubsystem{
         Integer maxDepth = getMaxDepth(postParams);
         PersistentVector board = getBoardVector(postParams);
         if (postDataValid(board, player)) {
-            int[] move = _tttLibrary.getMove(board, player.charAt(0), maxDepth);
+            int[] move = _tttLibrary.getMove(board, player, maxDepth);
             byte [] postBytes=new byte[0];
             if(move!=null){
                 String responsePostdata = "move=" + Integer.toString(move[0]) + Integer.toString(move[1]);

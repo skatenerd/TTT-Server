@@ -15,9 +15,9 @@ public class MockTTTLibraryTest {
         MockTTTLibrary mockTTTLibrary=new MockTTTLibrary(defaultMove,null,true);
         String board="xxxo xx o";
         PersistentVector boardVector=BoardStringParser.stringToBoardVector(board);
-        int [] move = mockTTTLibrary.getMove(boardVector, 'o',74);
+        int [] move = mockTTTLibrary.getMove(boardVector, "o",74);
         assertEquals(boardVector,mockTTTLibrary._boardArgs.get(0));
-        assertEquals('o',(char)mockTTTLibrary._playerArgs.get(0));
+        assertEquals("o",mockTTTLibrary._playerArgs.get(0));
         assertEquals("getMove",mockTTTLibrary._calls.get(0));
         assertEquals(74,(int)mockTTTLibrary._depthArgs.get(0));
         assertEquals(1,move[0]);
