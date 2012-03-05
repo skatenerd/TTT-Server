@@ -51,4 +51,31 @@ public class TTTLibraryImpl implements TTTLibrary{
         return winnerString;
     }
 
+    public boolean playerValid(String  player){
+        boolean valid=false;
+        try{
+            if(player!=null &&player.length() ==1){
+                RT.load("tictactoe.board_utils");
+                Var validator=RT.var("tictactoe.board-utils","player-valid?");
+                valid = (Boolean)validator.invoke(Keyword.intern(player));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return valid;
+    }
+
+    public boolean boardValid(PersistentVector board){
+        boolean valid=false;
+        try{
+
+            RT.load("tictactoe.board_utils");
+            Var validator=RT.var("tictactoe.board-utils","board-legal");
+            valid = (Boolean)validator.invoke(board);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return valid;
+    }
 }

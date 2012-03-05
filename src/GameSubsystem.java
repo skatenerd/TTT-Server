@@ -43,7 +43,7 @@ public class GameSubsystem implements ResponseSubsystem{
 
     private Response buildWinnerResponse(Request request, Map<String,String> postParams){
         PersistentVector board = getBoardVector(postParams);
-        if(boardValid(board)){
+        if(_tttLibrary.boardValid(board)){
             return new TextResponse(request, _tttLibrary.winner(board).getBytes());
         }else{
             return new BadRequestResponse();
@@ -93,30 +93,9 @@ public class GameSubsystem implements ResponseSubsystem{
     }
     
     private boolean postDataValid(PersistentVector board,String  player){
-        return playerValid(player) && boardValid(board);
-    }    
-
-    private boolean boardValid(PersistentVector board){
-        boolean valid=false;
-        try{
-
-        RT.load("tictactoe.board_utils");
-        Var validator=RT.var("tictactoe.board-utils","board-legal");
-        valid = (Boolean)validator.invoke(board);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return valid;
+        return _tttLibrary.playerValid(player) && _tttLibrary.boardValid(board);
     }
-    
-    private boolean playerValid(String player){
-        boolean rtn=false;
-        if(player!=null &&player.length() ==1){
-            char firstChar=player.charAt(0);
-            rtn = (firstChar=='x' || firstChar=='o');
-        }
-        return rtn;
-    }
+
     
     private boolean pathValid(String candidatePath){
         for(String path:_paths){

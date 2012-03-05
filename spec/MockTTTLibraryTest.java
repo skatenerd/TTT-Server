@@ -12,7 +12,7 @@ public class MockTTTLibraryTest {
     @Test
     public void recordsCalls(){
         int [] defaultMove={1,1};
-        MockTTTLibrary mockTTTLibrary=new MockTTTLibrary(defaultMove,null);
+        MockTTTLibrary mockTTTLibrary=new MockTTTLibrary(defaultMove,null,true);
         String board="xxxo xx o";
         PersistentVector boardVector=BoardStringParser.stringToBoardVector(board);
         int [] move = mockTTTLibrary.getMove(boardVector, 'o',74);
